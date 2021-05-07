@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongo_lab
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: data
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/mongo-data-new:/data/db
+
+  mongodb-bi-connector:
+    image: ryanhs/mongodb-bi-connector:latest
+    ports:
+      - 3307:3307
+    environment:
+      MONGODB_HOST: mongodb
+      MONGODB_PORT: 27017
+    depends_on:
+      - mongodb
