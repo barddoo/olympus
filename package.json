@@ -1,0 +1,20 @@
+{
+  "name": "olympus",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "cubejs-server"
+  },
+  "template": "docker",
+  "templateVersion": "0.27.7",
+  "devDependencies": {
+    "@cubejs-backend/mongobi-driver": "^0.27.5",
+    "@cubejs-backend/server": "^0.27.7"
+  },
+  "dependencies": {
+    "@cubejs-client/core": "^0.27.6",
+    "csv-parse": "^4.15.4",
+    "csvtojson": "^2.0.10",
+    "mongoose": "^5.12.7"
+  }
+}
