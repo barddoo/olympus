@@ -1,7 +1,8 @@
-.env
+dist
 node_modules
-.cubestore
-upstream
-data/
+.env
 .idea/
-*.iml
+data/*.csv
+data/*.json
+data/*.txt
+data-db
