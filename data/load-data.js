@@ -23,17 +23,16 @@ const db = new Datastore({ filename: 'data-db.json', autoload: true });
       delete data['mesano_de_referencia'];
       return data;
     })
-    .then((value) => {
+    .subscribe((value) => {
       return new Promise((resolve, reject) => {
         db.insert(value, (err, document) => {
-          console.log(document.length);
           if (err) reject(err);
-          resolve(document.length);
+          resolve(document);
         });
       });
     })
     .then((value) => {
-      console.log('Finish process, count:', value);
+      console.log('Finish process');
     })
     .catch((err) => {
       console.log(err);
