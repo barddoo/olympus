@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { PayCheckService } from '../../repository/PayCheckService';
+import { PayCheckService } from '../../services/PayCheckService';
 
 export class PayCheckController {
-  private paycheckService: PayCheckService = new PayCheckService();
+  private paycheckService: PayCheckService;
 
-  // constructor() {
-  //   this.paycheckService = new PayCheckService();
-  // }
+  constructor() {
+    this.paycheckService = new PayCheckService();
+  }
 
   all(req: Request, res: Response): void {
     const page = (req.query['page'] as string) ?? '10';

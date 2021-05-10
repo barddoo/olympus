@@ -10,12 +10,7 @@ class BaseError extends Error {
   public readonly status: HttpStatusCode;
   public readonly isOperational: boolean;
 
-  constructor(
-    name: string,
-    status: HttpStatusCode,
-    description: string,
-    isOperational: boolean
-  ) {
+  constructor(name: string, status: HttpStatusCode, description: string, isOperational: boolean) {
     super(description);
     Object.setPrototypeOf(this, new.target.prototype);
 

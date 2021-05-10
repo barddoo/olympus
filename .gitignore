@@ -5,4 +5,4 @@ node_modules
 data/*.csv
 data/*.json
 data/*.txt
-data-db
+data-db.json

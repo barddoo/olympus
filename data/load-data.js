@@ -2,14 +2,21 @@
 
 const csv = require('csvtojson');
 const Datastore = require('nedb');
-const db = new Datastore({ filename: 'data-db', autoload: true });
+const db = new Datastore({ filename: 'data-db.json', autoload: true });
 
 (async function () {
   console.log('Start dumping');
   await csv({
     delimiter: ',',
+    ignoreColumns: /cpf/,
   })
-    .fromFile('contracheque.csv')
+    .fromFile('data/contracheque.csv')
+    .subscribe((data, index) => {
+      data._id = index;
+      data['data_referencia'] = data['mesano_de_referencia'];
+      delete data['mesano_de_referencia'];
+      return data;
+    })
     .then((value) => {
       return new Promise((resolve, reject) => {
         db.insert(value, (err, document) => {

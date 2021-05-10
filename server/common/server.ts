@@ -10,7 +10,7 @@ import installValidator from './swagger';
 
 const app = express();
 
-export default class ExpressServer {
+export default class Server {
   private routes: (app: Application) => void;
   constructor() {
     app.use(express.json({ limit: process.env.REQUEST_LIMIT || '100kb' }));
@@ -25,14 +25,13 @@ export default class ExpressServer {
       rateLimit({
         windowMs: 60 * 60 * 1000,
         max: 1_000, // start blocking after 5 requests
-        message:
-          'Too many accounts created from this IP, please try again after an hour',
+        message: 'Too many accounts created from this IP, please try again after an hour',
       })
     );
     app.use(cookieParser(process.env.SESSION_SECRET));
   }
 
-  router(routes: (app: Application) => void): ExpressServer {
+  router(routes: (app: Application) => void): Server {
     this.routes = routes;
     return this;
   }
