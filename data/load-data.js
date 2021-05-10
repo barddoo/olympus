@@ -5,12 +5,13 @@ const decompress = require('decompress');
 const Datastore = require('nedb');
 const db = new Datastore({ filename: 'data-db.json', autoload: true });
 
-(async () => {
-  await decompress('data/contracheque.zip', 'data');
-})();
-
 (async function () {
+  console.log('Decompressing');
+
+  await decompress('data/contracheque.zip', 'data');
+
   console.log('Start dumping');
+
   await csv({
     delimiter: ',',
     ignoreColumns: /cpf/,
