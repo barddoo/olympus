@@ -4,7 +4,6 @@ const csv = require('csvtojson');
 const decompress = require('decompress');
 const Datastore = require('nedb');
 const db = new Datastore({ filename: 'data-db.json', autoload: true });
-db.persistence.setAutocompactionInterval(100);
 
 (async function () {
   console.log('Decompressing');
@@ -24,7 +23,7 @@ db.persistence.setAutocompactionInterval(100);
       delete data['mesano_de_referencia'];
       return data;
     })
-    .subscribe((value) => {
+    .then((value) => {
       return new Promise((resolve, reject) => {
         db.insert(value, (err) => {
           if (err) reject(err);
@@ -32,7 +31,7 @@ db.persistence.setAutocompactionInterval(100);
         });
       });
     })
-    .then((value) => {
+    .then(() => {
       console.log('Finish process');
     })
     .catch((err) => {
