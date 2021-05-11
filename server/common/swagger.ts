@@ -1,11 +1,11 @@
 import path from 'path';
-import middleware from 'swagger-express-middleware';
+import middlewareExpress from 'swagger-express-middleware';
 import { Application } from 'express';
 import errorHandler from '../api/middlewares/error.handler';
 
 export default function (app: Application, routes: (app: Application) => void): Promise<void> {
   return new Promise((resolve, reject) => {
-    middleware(path.join(__dirname, 'api.yml'), app, function (err: Error, middleware) {
+    middlewareExpress(path.join(__dirname, 'api.yml'), app, function (err: Error, middleware) {
       if (err) {
         return reject(err);
       }

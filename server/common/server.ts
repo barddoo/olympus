@@ -6,12 +6,13 @@ import cookieParser from 'cookie-parser';
 import l from './logger';
 import rateLimit from 'express-rate-limit';
 
-import installValidator from './swagger';
+// import installValidator from './swagger';
 
 const app = express();
 
 export default class Server {
   private routes: (app: Application) => void;
+
   constructor() {
     app.use(express.json({ limit: process.env.REQUEST_LIMIT || '100kb' }));
     app.use(
@@ -43,15 +44,16 @@ export default class Server {
           process.env.NODE_ENV || 'development'
         } @: ${os.hostname()} on port: ${p}}`
       );
-
-    installValidator(app, this.routes)
-      .then(() => {
-        http.createServer(app).listen(port, welcome(port));
-      })
-      .catch((e) => {
-        l.error(e);
-        process.exit(1);
-      });
+    this.routes(app);
+    http.createServer(app).listen(port, welcome(port));
+    // installValidator(app, this.routes)
+    //   .then(() => {
+    //     http.createServer(app).listen(port, welcome(port));
+    //   })
+    //   .catch((e) => {
+    //     l.error(e);
+    //     process.exit(1);
+    //   });
 
     return app;
   }
