@@ -13,7 +13,8 @@
     "lint:fix": "eslint -c .eslintrc.js \"{server, test}/**/*.{js,ts,tsx}\" --quiet --fix",
     "test": "mocha -r ts-node/register test/**/*.ts --exit",
     "test:debug": "mocha -r ts-node/register --inspect-brk test/**/*.ts --exit",
-    "dump": "node data/load-data.js"
+    "dump": "node data/load-data.js",
+    "postinstall": "yarn dump"
   },
   "dependencies": {
     "cookie-parser": "^1.4.5",
