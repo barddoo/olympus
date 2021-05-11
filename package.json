@@ -14,7 +14,8 @@
     "test": "mocha -r ts-node/register test/**/*.ts --exit",
     "test:debug": "mocha -r ts-node/register --inspect-brk test/**/*.ts --exit",
     "dump": "node data/load-data.js",
-    "decompress": "node data/decompress.js"
+    "decompress": "node data/decompress.js",
+    "postinstall": "yarn decompress"
   },
   "dependencies": {
     "cookie-parser": "^1.4.5",
