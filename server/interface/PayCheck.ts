@@ -8,7 +8,7 @@ export interface PayCheck {
   direitos_pessoais: number;
   indenizacoes: number;
   direitos_eventuais: number;
-  total_de_rendimentos: number;
+  total_de_rendimentos: string;
   previdencia_publica: number;
   imposto_de_renda: number;
   descontos_diversos: number;
@@ -20,6 +20,6 @@ export interface PayCheck {
   url: string;
   tribunal: string;
   orgao: string;
-  data_de_publicacao: string;
-  mesano_de_referencia: string;
+  data_de_publicacao: Date;
+  data_referencia: Date;
 }

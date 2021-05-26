@@ -1,39 +1,50 @@
-import Datastore from 'nedb';
 import Env from '../../common/env';
 import { PayCheck } from '../../interface/PayCheck';
-import Nedb from 'nedb';
+import { Collection, FilterQuery, MongoClient } from 'mongodb';
 
 export class PaycheckRepository {
-  private _db: Nedb<PayCheck>;
+  private _db: Collection<PayCheck>;
   private pageSize: number;
-  private _count: number;
+  private _client: MongoClient;
 
   constructor() {
     this.pageSize = Env.server.controller.paycheck.defaultSize;
-    this._db = new Datastore({ filename: Env.database.file, autoload: true });
   }
 
-  find(skip = 10, query: unknown = {}): Promise<PayCheck[]> {
-    return new Promise((resolve, reject) => {
-      this._db
-        .find(query)
-        .skip(skip)
-        .limit(this.pageSize)
-        .exec((err, documents) => {
-          if (err) reject(err);
-          resolve(documents);
-        });
-    });
+  async init() {
+    this._client = new MongoClient(
+      `mongodb+srv://${Env.database.mongo.host}?retryWrites=true&w=majority`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        auth: {
+          user: Env.database.mongo.user,
+          password: Env.database.mongo.pass,
+        },
+      }
+    );
+    this._db = await this._client
+      .connect()
+      .then((conn) =>
+        conn.db(Env.database.paycheck.database).collection(Env.database.paycheck.collection)
+      );
+  }
+
+  public get client() {
+    return this._client;
+  }
+
+  find(skip = 10, query: FilterQuery<PayCheck> = {}): Promise<PayCheck[]> {
+    return this._db.find(query).skip(skip).limit(this.pageSize).toArray();
+  }
+
+  findRandom(): Promise<PayCheck | null> {
+    return this._db
+      .aggregate([{ $match: { total_de_rendimentos: { $gte: 10000 } } }, { $sample: { size: 1 } }])
+      .next();
   }
 
   public async count(): Promise<number> {
-    if (!this._count)
-      await new Promise((resolve, reject) =>
-        this._db.count({}, (err, value) => {
-          if (err) reject(err);
-          resolve(value);
-        })
-      ).then((value) => (this._count = value as number));
-    return this._count;
+    return this._db.countDocuments();
   }
 }
