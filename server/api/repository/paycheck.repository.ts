@@ -11,7 +11,7 @@ export class PaycheckRepository {
     this.pageSize = Env.server.controller.paycheck.defaultSize;
   }
 
-  async init() {
+  async init(): Promise<void> {
     this._client = new MongoClient(
       `mongodb+srv://${Env.database.mongo.host}?retryWrites=true&w=majority`,
       {
@@ -40,7 +40,7 @@ export class PaycheckRepository {
 
   findRandom(): Promise<PayCheck | null> {
     return this._db
-      .aggregate([{ $match: { total_de_rendimentos: { $gte: 10000 } } }, { $sample: { size: 1 } }])
+      .aggregate([{ $match: { remuneracao_bruta: { $gte: 20000 } } }, { $sample: { size: 1 } }])
       .next();
   }
 

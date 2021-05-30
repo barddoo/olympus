@@ -1,0 +1,20 @@
+{
+  "name": "data-dump",
+  "version": "1.0.0",
+  "scripts": {
+    "loader": "ts-node loader.ts"
+  },
+  "dependencies": {
+    "decompress": "^4.2.1",
+    "dotenv": "^10.0.0",
+    "download": "^8.0.0",
+    "moment": "^2.29.1",
+    "mongodb": "^3.6.9"
+  },
+  "devDependencies": {
+    "@types/download": "^6.2.4",
+    "@types/node": "^15.6.1",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  }
+}

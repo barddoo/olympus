@@ -7,7 +7,7 @@ export default Object.freeze({
   database: {
     paycheck: {
       database: 'olympus',
-      collection: 'paycheck',
+      collection: 'salary',
     },
     mongo: {
       host: env['MONGO_HOST'] as string,

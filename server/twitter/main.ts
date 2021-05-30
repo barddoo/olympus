@@ -1,5 +1,3 @@
-/* tslint:disable */
-
 import Twit from 'twit';
 import schedule from 'node-schedule';
 import _ from 'lodash';
@@ -18,7 +16,8 @@ const T = new Twit({
 const paycheckRepository = new PaycheckRepository();
 (async () => {
   await paycheckRepository.init();
-  schedule.scheduleJob('0 12,19 * * *', {}, async () => {
+  await tweet();
+  schedule.scheduleJob('0 11,19 * * *', async () => {
     await tweet();
   });
 })();
@@ -27,26 +26,29 @@ async function tweet() {
   const find = await paycheckRepository.findRandom();
   if (!find) throw new Error('Not found');
 
-  const salary = parseFloat(find.total_de_rendimentos).toLocaleString('pt-br', {
+  const salary = find.remuneracao_bruta.toLocaleString('pt-br', {
     style: 'currency',
     currency: 'BRL',
   });
-  const year = find.data_referencia.getFullYear();
   const name = capitalize(find.nome);
-  const tribunal = capitalize(find.tribunal);
-  const cargo = capitalize(find.cargo);
-  const orgao = capitalize(find.orgao);
-  let message = `${name.trim()} ganhou ${salary} por mês no ano de ${year}.\nCargo: ${cargo}.\nTribunal: ${tribunal}.\nÓrgão: ${orgao}`;
+  const instituicao = capitalize(find.instituicao);
+  const cargo = capitalize(find.descricao_cargo);
+  const superInstituicao = capitalize(find.super_instituicao);
+  const setor = capitalize(find.setor_instituicao);
+  let message = `${name.trim()} ganha ${salary} por mês.\nCargo: ${cargo}.\nInstituição: ${instituicao}.\nSetor: ${setor}\nÓrgão: ${superInstituicao}`;
 
-  message = message.concat(`\nFonte: ${find.url}`);
+  message = message.concat(
+    `\nFonte: http://www.portaltransparencia.gov.br/servidores/${find.id_servidor}`
+  );
   T.post('statuses/update', { status: message }, function (err: Error, result: any) {
     if (err) console.log('Error tweeting', err);
     console.log('Success, text:', result.text);
     console.log('Create at:', result.created_at);
   });
-  // await paycheckRepository.client.close();
+  await paycheckRepository.client.close();
 }
 
 function capitalize(str: string): string {
-  return _.startCase(_.toLower(str));
+  const defaultValue = 'Sem Informação';
+  return !str || str == '' ? defaultValue : str.split(' ').map(_.capitalize).join(' ');
 }

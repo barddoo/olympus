@@ -3,6 +3,5 @@ node_modules
 .env
 .idea/
 data/*.csv
-data/*.json
 data/*.txt
-data-db.json
+
