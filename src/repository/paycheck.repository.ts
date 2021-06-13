@@ -23,14 +23,13 @@ export class PaycheckRepository {
         },
       }
     );
-    this._db = await this._client
-      .connect()
-      .then((conn) =>
-        conn.db(Env.database.paycheck.database).collection(Env.database.paycheck.collection)
-      );
+    this._db = await this._client.connect().then((conn) => {
+      console.log('Connect to database');
+      return conn.db(Env.database.paycheck.database).collection(Env.database.paycheck.collection);
+    });
   }
 
-  public get client() {
+  public get client(): MongoClient {
     return this._client;
   }
 

@@ -16,6 +16,7 @@ const T = new Twit({
 const paycheckRepository = new PaycheckRepository();
 (async () => {
   await paycheckRepository.init();
+  console.log('Start');
   schedule.scheduleJob('0 11,19 * * *', async () => {
     await tweet();
   });
