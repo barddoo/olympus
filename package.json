@@ -12,7 +12,7 @@
     "test": "mocha -r ts-node/register test/**/*.ts --exit",
     "test:debug": "mocha -r ts-node/register --inspect-brk test/**/*.ts --exit",
     "dump": "node data/load-data.mjs",
-    "tweet": "./node_modules/.bin/tsc && node dist/twitter/main.js"
+    "tweet": "node dist/twitter/main.js"
   },
   "dependencies": {
     "dotenv": "10.0.0",
