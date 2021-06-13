@@ -4,4 +4,4 @@ node_modules
 .idea/
 data/*.csv
 data/*.txt
-
+.run/
