@@ -14,7 +14,7 @@
     "test:debug": "mocha -r ts-node/register --inspect-brk test/**/*.ts --exit",
     "dump": "node data/load-data.mjs",
     "decompress": "node data/decompress.js",
-    "tweet": "tsc && node dist/twitter/main.js"
+    "tweet": "./node_modules/.bin/tsc && node dist/twitter/main.js"
   },
   "dependencies": {
     "dotenv": "10.0.0",
